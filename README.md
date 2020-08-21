@@ -1,6 +1,6 @@
 <h2 align="center">Angst Stealer</h2> 
 <p align="center">
-  <img width="1500" height="500" src="https://i.imgur.com/SwlJRar.png">
+  <img width="1200" height="300" src="https://i.imgur.com/SwlJRar.png">
 </p>
 
 AngstStealer is a POC malware which is designed to highlight and utilize Discord as an attack vector. While it is fully functioning it was created for educational purpose's, please do not use misuse this tool. Angst Stealer currently has a total of 6 plugins:
