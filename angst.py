@@ -61,10 +61,13 @@ class Angst():
         to the config which is
         given by the user.
         """
-        angst_dir = os.path.join(self.app_data, "Angst")
-        os.mkdir(angst_dir)
-        os.mkdir(f"{angst_dir}\\passwords")
-        os.mkdir(f"{angst_dir}\\cookies")
+        try: #temp patch since I am lazy
+            angst_dir = os.path.join(self.app_data, "Angst")
+            os.mkdir(angst_dir)
+            os.mkdir(f"{angst_dir}\\passwords")
+            os.mkdir(f"{angst_dir}\\cookies")
+        except:
+            pass
         for plugin in self.plugins:
             try:
                 for conf in CONFIG["software"]:
